@@ -1,4 +1,4 @@
-FROM PHP_IMAGE
+FROM php:8.4.23-fpm-alpine
 
 RUN apk add --no-cache fcgi
 
