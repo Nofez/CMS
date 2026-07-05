@@ -1,0 +1,7 @@
+FROM PHP_IMAGE
+
+RUN apk add --no-cache fcgi
+
+RUN echo "ping.path = /ping" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+
+EXPOSE 9000
