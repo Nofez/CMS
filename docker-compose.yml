@@ -65,7 +65,7 @@ services:
    #   start_period: 15s
     volumes:
       - wp_files:/var/www/html
-      - .wordpress:/var/www/html/wp-content/themes/twentytwentyfour
+      - ./mhw-theme:/var/www/html/wp-content/themes/mhw-theme
     networks:
       - cms_network
 
@@ -81,7 +81,7 @@ services:
     volumes:
       - wp_files:/var/www/html
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-      - .wordpress:/var/www/html/wp-content/themes/twentytwentyfour
+      - ./mhw-theme:/var/www/html/wp-content/themes/mhw-theme
     healthcheck:
       test: ["CMD", "service", "nginx", "status"]
       interval: 20s
