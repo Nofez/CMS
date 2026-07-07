@@ -30,8 +30,6 @@ services:
       dockerfile: DockerFile
     container_name: php
     restart: always
-    ports:
-      - '9000:9000'
     environment:
       - SCRIPT_NAME=/ping
       - SCRIPT_FILENAME=/ping
@@ -44,6 +42,8 @@ services:
         start_period: 5s
     volumes:
       - wp_files:/var/www/html
+    expose:
+      - '9000'
     networks:
       - cms_network
 
@@ -57,7 +57,7 @@ services:
     container_name: wordpress
     restart: always
     ports:
-      - '9000:9090'
+      - '9000:9000'
     environment:
       SCRIPT_NAME: /ping
       SCRIPT_FILENAME: /ping
