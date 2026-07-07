@@ -57,7 +57,7 @@ services:
     container_name: wordpress
     restart: always
     ports:
-      - '9000:9000'
+      - '9000:9090'
     environment:
       SCRIPT_NAME: /ping
       SCRIPT_FILENAME: /ping
