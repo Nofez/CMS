@@ -1,4 +1,4 @@
-FROM $NGINX_IMAGE
+FROM $WORDPRESS_IMAGE
 
 RUN apk add --no-cache fcgi
 
