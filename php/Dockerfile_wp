@@ -1,7 +1,7 @@
-FROM wordpress:fpm-alpine
+FROM $NGINX_IMAGE
 
 RUN apk add --no-cache fcgi
 
 RUN echo "ping.path = /ping" >> /usr/local/etc/php-fpm.d/zz-docker.conf
 
-EXPOSE 9000
+EXPOSE $WORDPRESS_PORT
