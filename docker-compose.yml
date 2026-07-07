@@ -49,21 +49,25 @@ services:
     depends_on:
       php:
         condition: service_healthy
-    image: $WORDPRESS_IMAGE
+    build:
+      context: ./php
+      dockerfile: Dockerfile_wp
     container_name: wordpress
     restart: always
     environment:
+      SCRIPT_NAME: /ping
+      SCRIPT_FILENAME: /ping
+      REQUEST_METHOD: GET
       WORDPRESS_DB_HOST: mariadb:3306
       WORDPRESS_DB_USER: $DATABASE_USER
       WORDPRESS_DB_PASSWORD: $DATABASE_PASS
       WORDPRESS_DB_NAME: $DATABASE_NAME
-      PHP_FPM_PM_STATUS_PATH: /status
     healthcheck:
-      test: ["CMD", "php-fpm-healthcheck"]
-      interval: 15s
+      test: [ "CMD", "cgi-fcgi", "-bind", "-connect", "127.0.0.1:9000" ]
+      interval: 10s
       timeout: 5s
       retries: 3
-      start_period: 15s
+      start_period: 5s
     volumes:
       - wp_files:/var/www/html
       - ./mhw-theme:/var/www/html/wp-content/themes/mhw-theme
