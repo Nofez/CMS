@@ -86,7 +86,7 @@ services:
     container_name: nginx
     restart: always
     ports:
-      - "$NGINX_PORT_SECOND:$NGINX_PORT"
+      - "80:80"
     volumes:
       - wp_files:/var/www/html
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
