@@ -106,4 +106,5 @@ volumes:
 
 networks:
   cms_network:
+    name: cms_network
     driver: bridge
