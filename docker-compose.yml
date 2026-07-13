@@ -66,12 +66,12 @@ services:
       WORDPRESS_DB_USER: $DATABASE_USER
       WORDPRESS_DB_PASSWORD: $DATABASE_PASS
       WORDPRESS_DB_NAME: $DATABASE_NAME
-    healthcheck:
-      test: [ "CMD", "cgi-fcgi", "-bind", "-connect", "127.0.0.1:9000" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 60s
+    #healthcheck:
+      #test: [ "CMD", "cgi-fcgi", "-bind", "-connect", "127.0.0.1:9000" ]
+      #interval: 10s
+      #timeout: 5s
+      #retries: 3
+      #start_period: 60s
     volumes:
       - wp_files:/var/www/html
       - ./mhw-theme:/var/www/html/wp-content/themes/mhw-theme
