@@ -48,9 +48,9 @@ services:
       - cms_network
 
   wordpress:
-    depends_on:
-      php:
-        condition: service_healthy
+    #depends_on:
+   #   php:
+   #     condition: service_healthy
     build:
       context: ./php
       dockerfile: Dockerfile_wp
@@ -79,9 +79,9 @@ services:
       - cms_network
 
   webserver:
-    depends_on:
-     wordpress:
-        condition: service_healthy
+    #depends_on:
+    # wordpress:
+    #    condition: service_healthy
     image: $NGINX_IMAGE
     container_name: nginx
     restart: always
