@@ -242,10 +242,71 @@ function mhw_inject_assets() {
 // ==========================================
 add_shortcode('mhw_hub', 'render_mhw_hub');
 function render_mhw_hub() {
+    // --- ЕДИНООБРАЗНАЯ ФОРМА АВТОРИЗАЦИИ ДЛЯ НЕАВТОРИЗОВАННЫХ ПОЛЬЗОВАТЕЛЕЙ ---
     if (!is_user_logged_in()) {
-        return '<div class="mhw-master-wrapper"><div class="mhw-alert">Вы должны быть в Лагере (авторизованы), чтобы получить доступ к Гильдейскому Хабу Monster Hunter Wilds.</div></div>';
+        ob_start();
+        ?>
+        <div class="mhw-master-wrapper">
+            <div class="mhw-hub-header">
+                <h1>Вход в Лагерь</h1>
+                <p>Пройдите авторизацию для доступа к Гильдейскому Хабу</p>
+            </div>
+            <div class="mhw-tab-content active" style="max-width: 450px; margin: 0 auto;">
+                <h3>Вход в систему</h3>
+
+                <?php
+                // Проверяем, была ли ошибка входа (через параметры URL)
+                if (isset($_GET['login']) && $_GET['login'] == 'failed') {
+                    echo '<div class="mhw-alert" style="padding:10px; margin-bottom:15px; font-size:0.9rem;">Неверный логин или пароль. Попробуйте снова.</div>';
+                }
+
+                // Настройки формы логина WordPress
+                $args = [
+                        'echo'           => true,
+                        'redirect'       => esc_url($_SERVER['REQUEST_URI']), // Перенаправляет обратно на эту же страницу после входа
+                        'form_id'        => 'mhw-login-form',
+                        'label_username' => 'Логин / Email',
+                        'label_password' => 'Пароль',
+                        'label_remember' => 'Запомнить меня',
+                        'label_log_in'   => 'Войти в Хаб',
+                        'id_username'    => 'user_login',
+                        'id_password'    => 'user_pass',
+                        'id_submit'      => 'wp-submit',
+                        'remember'       => true,
+                        'value_username' => '',
+                        'value_remember' => true,
+                ];
+
+                // Выводим форму
+                echo '<div class="mhw-custom-login-form">';
+                wp_login_form($args);
+                echo '</div>';
+                ?>
+
+                <style>
+                    /* Кастомизация стандартной формы WP под ваш темный игровой стиль */
+                    .mhw-custom-login-form form { display: flex; flex-direction: column; }
+                    .mhw-custom-login-form p { margin-bottom: 15px; }
+                    .mhw-custom-login-form label { display: block; margin-bottom: 8px; font-weight: bold; color: #a0aab5; font-size: 0.9rem; text-transform: uppercase; }
+                    .mhw-custom-login-form input[type="text"],
+                    .mhw-custom-login-form input[type="password"] {
+                        width: 100%; padding: 12px; border: 1px solid #3a4149; background: #0f1112; color: #fff; border-radius: 6px; box-sizing: border-box; font-size: 1rem;
+                    }
+                    .mhw-custom-login-form input:focus { border-color: #d4af37; outline: none; }
+                    .mhw-custom-login-form .login-remember { display: flex; align-items: center; gap: 8px; color: #a0aab5; font-size: 0.9rem; }
+                    .mhw-custom-login-form .login-remember input { width: auto; margin: 0; }
+                    .mhw-custom-login-form input[type="submit"] {
+                        background: linear-gradient(180deg, #990000 0%, #700000 100%); color: white; padding: 14px 20px; border: 1px solid #500; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; text-transform: uppercase; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: background 0.2s;
+                    }
+                    .mhw-custom-login-form input[type="submit"]:hover { background: linear-gradient(180deg, #b30000 0%, #8b0000 100%); }
+                </style>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
     }
 
+    // --- НАЧАЛО КОДА ДЛЯ АВТОРИЗОВАННЫХ ПОЛЬЗОВАТЕЛЕЙ (ОСТАЕТСЯ БЕЗ ИЗМЕНЕНИЙ) ---
     global $wpdb;
     $current_user_id = get_current_user_id();
 
@@ -413,4 +474,16 @@ function render_mhw_hub() {
     </div>
     <?php
     return ob_get_clean();
+}
+
+// --- ДОПОЛНИТЕЛЬНЫЙ ХУК ДЛЯ ОБРАБОТКИ ОШИБОК ВХОДА (чтобы не улетало в стандартный wp-login.php) ---
+add_action('wp_login_failed', 'mhw_login_fail_redirect');
+function mhw_login_fail_redirect($username) {
+    // Выясняем, откуда пришел запрос
+    $referrer = wp_get_referer();
+    // Если в запросе была наша страница с шорткодом, возвращаем ошибку туда же
+    if (!empty($referrer) && !strstr($referrer, 'wp-login') && !strstr($referrer, 'wp-admin')) {
+        wp_redirect(add_query_arg('login', 'failed', $referrer));
+        exit;
+    }
 }
