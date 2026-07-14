@@ -47,7 +47,7 @@ services:
       - '9000'
     networks:
       - cms_network
-      - monitor_app
+
 
   wordpress:
     depends_on:
@@ -79,7 +79,7 @@ services:
       - ./mhw-theme:/var/www/html/wp-content/themes/mhw-theme
     networks:
       - cms_network
-      - monitor_app
+
 
   webserver:
     depends_on:
@@ -102,7 +102,7 @@ services:
       start_period: 10s
     networks:
       - cms_network
-      - monitor_app
+
 
 volumes:
   maria_data:
