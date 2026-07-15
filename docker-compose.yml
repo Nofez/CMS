@@ -95,7 +95,7 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./mhw-theme:/var/www/html/wp-content/themes/mhw-theme
     healthcheck:
-      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/ping" ]
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1/ping" ]
       interval: 10s
       timeout: 5s
       retries: 3
