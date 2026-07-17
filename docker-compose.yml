@@ -90,10 +90,13 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - wp_files:/var/www/html
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./mhw-theme:/var/www/html/wp-content/themes/mhw-theme
+      - /home/eric/project/CMS/certbot/www:/var/www/certbot
+      - /home/eric/project/CMS/certbot/conf:/etc/letsencrypt
     healthcheck:
       test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1/ping" ]
       interval: 10s
