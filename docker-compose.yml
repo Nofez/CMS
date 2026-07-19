@@ -107,6 +107,21 @@ services:
       - cms_network
 
 
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    restart: unless-stopped
+    volumes:
+      - /home/eric/project/CMS/certbot/www:/var/www/certbot
+      - /home/eric/project/CMS/certbot/conf:/etc/letsencrypt
+    entrypoint: >
+      /bin/sh -c "trap exit TERM;
+      while :; do
+        certbot renew --webroot -w /var/www/certbot;
+        sleep 12h & wait $${!};
+      done;"
+
+
 volumes:
   maria_data:
   wp_files:
