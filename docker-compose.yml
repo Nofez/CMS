@@ -43,6 +43,8 @@ services:
         start_period: 5s
     volumes:
       - wp_files:/var/www/html
+    expose:
+      - '9000'
     networks:
       - cms_network
 
