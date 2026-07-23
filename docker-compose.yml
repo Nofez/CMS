@@ -58,8 +58,6 @@ services:
       dockerfile: Dockerfile_wp
     container_name: wordpress
     restart: always
-    ports:
-      - '$WORDPRESS_PORT:9000'
     environment:
       SCRIPT_NAME: /ping
       SCRIPT_FILENAME: /ping
