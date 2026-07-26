@@ -25,56 +25,55 @@ https://github.com/Nofez/Monitoring-Victoria-
 4. **Grafana** (Monitoring-Grafana-) подключена к сети `vm_network` — может читать данные напрямую из VictoriaMetrics.
 5. **Все сервисы Part-of-app** работают в изолированной сети `cms_network`.
    
-   IdeaProjects/
-├── Part-of-app/                          # Основное приложение (WordPress)
-│   ├── .env                              # Переменные окружения CMS
-│   ├── docker-compose.yml                # Оркестрация CMS-сервисов
-│   ├── README.md                         # Документация Part-of-app
-│   ├── Mariadb/                          # SQL-скрипты инициализации (пусто)
+```text
+IdeaProjects/
+├── Part-of-app/ # Основное приложение (WordPress)
+│   ├── .env # Переменные окружения CMS
+│   ├── docker-compose.yml # Оркестрация CMS-сервисов
+│   ├── README.md # Документация Part-of-app
+│   ├── Mariadb/ # SQL-скрипты инициализации (пусто)
 │   ├── nginx/
-│   │   └── nginx.conf                    # Конфигурация Nginx для WordPress
-│   ├── php/
-│   │   ├── DockerFile                    # Кастомный PHP-fpm-alpine образ
-│   │   └── Dockerfile_wp                 # Кастомный WordPress-fpm-alpine образ
-│   └── mhw-theme/                        # WordPress-тема Monster Hunter Wilds
-│       ├── index.php
-│       ├── functions.php
-│       └── style.css
-│
-├── Monitoring/                           # Стек сбора метрик
-│   ├── .env                              # Переменные окружения мониторинга
-│   ├── docker-compose.yml                # Оркестрация мониторинга
+│   │   └── nginx.conf # Конфигурация Nginx для WordPress
+│   └── php/
+│       ├── DockerFile # Кастомный PHP-fpm-alpine образ
+│       ├── Dockerfile_wp # Кастомный WordPress-fpm-alpine образ
+│       └── mhw-theme/ # WordPress-тема Monster Hunter Wilds
+│           ├── index.php
+│           ├── functions.php
+│           └── style.css
+├── Monitoring/ # Стек сбора метрик
+│   ├── .env # Переменные окружения мониторинга
+│   ├── docker-compose.yml # Оркестрация мониторинга
 │   ├── DockerFile/
-│   │   ├── DockerFile                    # Кастомный Prometheus с envsubst
-│   │   └── entrypoint.sh                 # Entrypoint с подстановкой env-переменных
+│   │   ├── DockerFile # Кастомный Prometheus с envsubst
+│   │   └── entrypoint.sh # Entrypoint с подстановкой env-переменных
 │   ├── prometheus/
-│   │   ├── prometheus.yml                # Конфигурация Prometheus (шаблон)
+│   │   ├── prometheus.yml # Конфигурация Prometheus (шаблон)
 │   │   ├── targets/
 │   │   │   ├── node_exporter/
-│   │   │   │   └── node_exporter.yml     # Таргеты Node Exporter
+│   │   │   │   └── node_exporter.yml # Таргеты Node Exporter
 │   │   │   ├── mysql_exporter/
-│   │   │   │   └── mysql_exporter.yml    # Таргеты MySQL Exporter
+│   │   │   │   └── mysql_exporter.yml # Таргеты MySQL Exporter
 │   │   │   └── blackbox/
-│   │   │       └── blackbox.yml          # Таргеты Blackbox Exporter
+│   │   │       └── blackbox.yml # Таргеты Blackbox Exporter
 │   │   └── rules/
 │   │       ├── node_exporter/
-│   │       │   └── node_exporter.yml     # Алерты Node Exporter
+│   │       │   └── node_exporter.yml # Алеры Node Exporter
 │   │       ├── mysql_exporter/
-│   │       │   └── mysql_exporter.yml    # Алерты MySQL Exporter
+│   │       │   └── mysql_exporter.yml # Алеры MySQL Exporter
 │   │       └── blackbox/
-│   │           └── blackbox.yml          # Алерты Blackbox Exporter
+│   │           └── blackbox.yml # Алеры Blackbox Exporter
 │   ├── alertmanager/
-│   │   └── alertmanager.yml              # Конфигурация Alertmanager с Telegram
+│   │   └── alertmanager.yml # Конфигурация Alertmanager с Telegram
 │   └── exporters/
-│       └── .my.cnf                       # Креды MySQL для экспортера
-│
-├── Monitoring-Grafana-/                  # Визуализация метрик
-│   ├── .env                              # Переменные окружения Grafana
-│   └── docker-compose.yml                # Оркестрация Grafana
-│
-├── Monitoring-Victoria-/                 # Долгосрочное хранение метрик
-	   ├── .env                              # Переменные окружения VictoriaMetrics
-	   └── docker-compose.yml                # Оркестрация VictoriaMetrics
+│       └── .my.cnf # Креды MySQL для экспортера
+├── Monitoring-Grafana-/ # Визуализация метрик
+│   ├── .env # Переменные окружения Grafana
+│   └── docker-compose.yml # Оркестрация Grafana
+└── Monitoring-Victoria-/ # Долгосрочное хранение метрик
+    ├── .env # Переменные окружения VictoriaMetrics
+    └── docker-compose.yml # Оркестрация VictoriaMetrics
+```
 
 
 ## Системные требования
